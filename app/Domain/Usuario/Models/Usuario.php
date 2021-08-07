@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Domain\Usuario\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class Usuario extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -16,11 +17,15 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = [];
+
+    /**
+     * @return HasOne
+     */
+    public function tipo(): HasOne
+    {
+        return $this->hasOne(TipoUsuario::class);
+    }
 
     /**
      * The attributes that should be hidden for arrays.
