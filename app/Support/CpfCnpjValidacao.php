@@ -7,6 +7,10 @@ namespace App\Support;
 class CpfCnpjValidacao
 {
     /**
+     * @var string
+     */
+    public string $valor;
+    /**
      * Valida
      *
      * Valida o CPF ou CNPJ
@@ -247,9 +251,9 @@ class CpfCnpjValidacao
 
     /**
      * @param string $valor
-     * @return string|null
+     * @return string
      */
-    public function apenasNumeros(string $valor): ?string
+    public function apenasNumeros(string $valor): string
     {
         return preg_replace('/[^0-9]/', '', $valor);
     }
