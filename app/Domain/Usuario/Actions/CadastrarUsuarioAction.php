@@ -5,7 +5,7 @@ namespace App\Domain\Usuario\Actions;
 
 
 use App\Domain\Usuario\DataTransferObjects\UsuarioData;
-use App\Exceptions\CpfCnpjException;
+use App\Domain\Usuario\Exception\CpfCnpjException;
 use App\Domain\Usuario\Models\Usuario;
 use App\Support\CpfCnpjValidacao;
 

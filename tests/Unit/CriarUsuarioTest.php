@@ -3,8 +3,7 @@
 
 use App\Domain\Usuario\Actions\CadastrarUsuarioAction;
 use App\Domain\Usuario\DataTransferObjects\UsuarioData;
-use App\Exceptions\CpfCnpjException;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use App\Domain\Usuario\Exception\CpfCnpjException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
