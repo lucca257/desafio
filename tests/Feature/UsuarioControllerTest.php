@@ -56,44 +56,6 @@ class UsuarioControllerTest extends TestCase
             ]);
     }
 
-    public function test_campo_email_deve_ser_unico_ao_criar_usuario()
-    {
-        $mock_usuario = [
-            "nome" => "pedro lucca leonardo de almeida",
-            "cpf_cnpj" => "13864107725",
-            "email" => "pedrolucca257@gmail.com",
-            "password" => "any_password",
-            "tipo_id" => 1,
-        ];
-        $this->post('/api/v1/usuario', $mock_usuario);
-        $mock_usuario["cpf_cnpj"] = "36.350.988/0001-66";
-        $response = $this->post('/api/v1/usuario', $mock_usuario);
-        $response
-            ->assertStatus(422)
-            ->assertJson([
-                "email" => ["The email has already been taken."]
-            ]);
-    }
-
-    public function test_campo_cpf_cnpj_deve_ser_unico_ao_criar_usuario()
-    {
-        $mock_usuario = [
-            "nome" => "pedro lucca leonardo de almeida",
-            "cpf_cnpj" => "13864107725",
-            "email" => "pedrolucca257@gmail.com",
-            "password" => "any_password",
-            "tipo_id" => 1,
-        ];
-        $this->post('/api/v1/usuario', $mock_usuario);
-        $mock_usuario["email"] = "any_email@gmail.com";
-        $response = $this->post('/api/v1/usuario', $mock_usuario);
-        $response
-            ->assertStatus(422)
-            ->assertJson([
-                "cpf_cnpj" => ["The cpf cnpj has already been taken."]
-            ]);
-    }
-
     public function test_deve_retornar_200_ao_criar_usuario()
     {
         $mock_usuario = [
@@ -107,9 +69,43 @@ class UsuarioControllerTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson([
-            'success' => true,
-            'message' => 'Usuário criado com successo'
-        ]);
+                'success' => true,
+                'message' => 'Usuário criado com successo'
+            ]);
+    }
+
+    public function test_campo_email_deve_ser_unico_ao_criar_usuario()
+    {
+        $mock_usuario = [
+            "nome" => "pedro lucca leonardo de almeida",
+            "cpf_cnpj" => "36.350.988/0001-66",
+            "email" => "pedrolucca257@gmail.com",
+            "password" => "any_password",
+            "tipo_id" => 1,
+        ];
+        $response = $this->post('/api/v1/usuario', $mock_usuario);
+        $response
+            ->assertStatus(422)
+            ->assertJson([
+                "email" => ["The email has already been taken."]
+            ]);
+    }
+
+    public function test_campo_cpf_cnpj_deve_ser_unico_ao_criar_usuario()
+    {
+        $mock_usuario = [
+            "nome" => "pedro lucca leonardo de almeida",
+            "cpf_cnpj" => "13864107725",
+            "email" => "any_email@gmail.com",
+            "password" => "any_password",
+            "tipo_id" => 1,
+        ];
+        $response = $this->post('/api/v1/usuario', $mock_usuario);
+        $response
+            ->assertStatus(422)
+            ->assertJson([
+                "cpf_cnpj" => ["The cpf cnpj has already been taken."]
+            ]);
     }
 
     public function test_deve_retornar_500_ao_criar_usuario_com_cpf_cnpj_invalido()
@@ -117,7 +113,7 @@ class UsuarioControllerTest extends TestCase
         $mock_usuario = [
             "nome" => "pedro lucca leonardo de almeida",
             "cpf_cnpj" => "13864107720",
-            "email" => "pedrolucca257@gmail.com",
+            "email" => "any_email@gmail.com",
             "password" => "any_password",
             "tipo_id" => 1,
         ];
