@@ -111,4 +111,22 @@ class UsuarioControllerTest extends TestCase
             'message' => 'Usuário criado com successo'
         ]);
     }
+
+    public function test_deve_retornar_500_ao_criar_usuario_com_cpf_cnpj_invalido()
+    {
+        $mock_usuario = [
+            "nome" => "pedro lucca leonardo de almeida",
+            "cpf_cnpj" => "13864107720",
+            "email" => "pedrolucca257@gmail.com",
+            "password" => "any_password",
+            "tipo_id" => 1,
+        ];
+        $response = $this->post('/api/v1/usuario', $mock_usuario);
+        $response
+            ->assertStatus(500)
+            ->assertJson([
+                'success' => false,
+                'message' => 'o cpf/cnpj informado não é válido'
+            ]);
+    }
 }
