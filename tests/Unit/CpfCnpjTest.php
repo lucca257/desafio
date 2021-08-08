@@ -3,9 +3,6 @@
 namespace Tests\Feature;
 
 use App\Support\CpfCnpjValidacao;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use JetBrains\PhpStorm\Pure;
 use Tests\TestCase;
 
 class CpfCnpjTest extends TestCase
