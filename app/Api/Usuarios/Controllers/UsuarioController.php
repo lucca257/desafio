@@ -14,9 +14,15 @@ class UsuarioController extends Controller
         try {
             $usuarioData = new UsuarioData(...$request->validated());
             $action->execute($usuarioData);
-            return response()->json($usuarioData);
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuário criado com successo'
+            ]);
         } catch (\Exception $e){
-            return response()->json($e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocorreu um erro ao criar usuário'
+            ], 500);
         }
     }
 }

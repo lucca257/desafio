@@ -38,6 +38,7 @@ class CriarUsuarioRequest extends FormRequest
             "cpf_cnpj" => "string|required|unique:usuarios",
             "email" => "email|required|unique:usuarios",
             "password" => "required",
+            "tipo_id" => "integer|required"
         ];
     }
 }
