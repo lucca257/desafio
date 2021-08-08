@@ -21,4 +21,12 @@ class CarteiraTest extends TestCase
             "saldo" => $carteiraData->saldo
         ]);
     }
+
+    public function test_deve_retornar_o_saldo_do_usuario()
+    {
+        $action = resolve(\App\Domain\carteira\Actions\SaldoCarteiraAction::class);
+        $mock_usuario_id = 1;
+        $saldoUsuario = $action->execute($mock_usuario_id);
+        $this->assertEquals(9999, $saldoUsuario);
+    }
 }
