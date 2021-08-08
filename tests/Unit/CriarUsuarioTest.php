@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Domain\Usuario\Actions\CadastrarUsuarioAction;
+use App\Domain\Usuario\Actions\CriarUsuarioAction;
 use App\Domain\Usuario\DataTransferObjects\UsuarioData;
 use App\Domain\Usuario\Exception\CpfCnpjException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +14,7 @@ class CriarUsuarioTest extends TestCase
 
     public function test_deve_criar_um_usuario()
     {
-        $action = resolve(CadastrarUsuarioAction::class);
+        $action = resolve(CriarUsuarioAction::class);
         $usuarioData = new UsuarioData(
             nome : "pedro lucca leonardo de almeida",
             cpf_cnpj : "13864107725",
@@ -40,7 +40,7 @@ class CriarUsuarioTest extends TestCase
         $this->withoutExceptionHandling();
         $this->expectException(CpfCnpjException::class);
         $this->expectExceptionMessage('o cpf/cnpj informado não é válido');
-        $action = resolve(CadastrarUsuarioAction::class);
+        $action = resolve(CriarUsuarioAction::class);
         $usuarioData = new UsuarioData("pedro lucca leonardo de almeida","00000","pedrolucca257@gmail.com",1,"any_password");
         $action->execute($usuarioData);
     }

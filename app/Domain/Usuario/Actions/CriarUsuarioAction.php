@@ -13,7 +13,7 @@ use App\Support\CpfCnpjValidacao;
  * Class CadastrarUsuarioAction
  * @package App\Domain\Usuario\Actions
  */
-final class CadastrarUsuarioAction
+final class CriarUsuarioAction
 {
     /**
      * CadastrarUsuarioAction constructor.
