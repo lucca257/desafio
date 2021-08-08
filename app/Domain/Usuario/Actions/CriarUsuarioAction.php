@@ -21,9 +21,8 @@ final class CriarUsuarioAction
      * CriarUsuarioAction constructor.
      * @param Usuario $usuario
      * @param CpfCnpjValidacao $cpfCnpjValidacao
-     * @param CriarCarteiraAction $criarCarteiraAction
      */
-    public function __construct(private Usuario $usuario, private CpfCnpjValidacao $cpfCnpjValidacao, private CriarCarteiraAction $criarCarteiraAction) {}
+    public function __construct(private Usuario $usuario, private CpfCnpjValidacao $cpfCnpjValidacao) {}
 
     /**
      * @param UsuarioData $usuarioData
@@ -33,18 +32,13 @@ final class CriarUsuarioAction
     public function execute(UsuarioData $usuarioData): Usuario
     {
         $usuarioData->cpf_cnpj = $this->validarCpfCnpj($usuarioData->cpf_cnpj);
-        $usuarioCriado = $this->usuario->create([
+        return $this->usuario->create([
             "nome" => $usuarioData->nome,
             "email" => $usuarioData->email,
             "password" => $usuarioData->password,
             "cpf_cnpj" => $usuarioData->cpf_cnpj,
             "tipo_usuario_id" => $usuarioData->tipo_id
         ]);
-        $this->criarCarteiraAction->execute(new CarteiraData(
-            usuario_id: $usuarioCriado->id,
-            saldo: 0
-        ));
-        return $usuarioCriado;
     }
 
     /**

@@ -4,12 +4,13 @@ namespace App\Api\Usuarios\Controllers;
 
 use App\Core\Http\Controllers\Controller;
 use App\Domain\Usuario\Actions\CriarUsuarioAction;
+use App\Domain\Usuario\Actions\RegistrarUsuarioAction;
 use App\Domain\Usuario\DataTransferObjects\UsuarioData;
 use App\Api\Usuarios\Requests\CriarUsuarioRequest;
 
 class UsuarioController extends Controller
 {
-    public function store(CriarUsuarioRequest $request, CriarUsuarioAction $action)
+    public function store(CriarUsuarioRequest $request, RegistrarUsuarioAction $action)
     {
         try {
             $usuarioData = new UsuarioData(...$request->validated());
