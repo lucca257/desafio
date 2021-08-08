@@ -8,6 +8,22 @@ class UsuarioControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_campo_nome_obrigatorio_ao_criar_usuario()
+    {
+        $mock_usuario = [
+            "cpf_cnpj" => "13864107725",
+            "email" => "pedrolucca257@gmail.com",
+            "password" => "any_password",
+            "tipo_id" => 1,
+        ];
+        $response = $this->post('/api/v1/usuario', $mock_usuario);
+        $response
+            ->assertStatus(422)
+            ->assertJson([
+                "nome" => ["The nome field is required."]
+            ]);
+    }
+
     public function test_deve_retornar_200_ao_criar_usuario()
     {
         $mock_usuario = [
