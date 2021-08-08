@@ -24,6 +24,22 @@ class UsuarioControllerTest extends TestCase
             ]);
     }
 
+    public function test_campo_email_obrigatorio_ao_criar_usuario()
+    {
+        $mock_usuario = [
+            "nome" => "pedro lucca leonardo de almeida",
+            "cpf_cnpj" => "13864107725",
+            "password" => "any_password",
+            "tipo_id" => 1,
+        ];
+        $response = $this->post('/api/v1/usuario', $mock_usuario);
+        $response
+            ->assertStatus(422)
+            ->assertJson([
+                "email" => ["The email field is required."]
+            ]);
+    }
+
     public function test_deve_retornar_200_ao_criar_usuario()
     {
         $mock_usuario = [
