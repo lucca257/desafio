@@ -7,6 +7,7 @@ use App\Domain\Usuario\Actions\CriarUsuarioAction;
 use App\Domain\Usuario\Actions\RegistrarUsuarioAction;
 use App\Domain\Usuario\DataTransferObjects\UsuarioData;
 use App\Api\Usuarios\Requests\CriarUsuarioRequest;
+use App\Domain\Usuario\Exception\CpfCnpjException;
 
 class UsuarioController extends Controller
 {
@@ -19,6 +20,11 @@ class UsuarioController extends Controller
                 'success' => true,
                 'message' => 'Usuário criado com successo'
             ]);
+        } catch (CpfCnpjException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
         } catch (\Exception $e){
             return response()->json([
                 'success' => false,
