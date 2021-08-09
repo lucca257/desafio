@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Domain\carteira\Models\Carteira;
+use App\Domain\Usuario\Models\Usuario;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\Usuario::factory(10)->create();
+        Usuario::factory(10)->create();
+        Carteira::factory(10)->create();
     }
 }
