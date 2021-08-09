@@ -2,12 +2,15 @@
 
 
 use App\Domain\carteira\DataTransferObjects\CarteiraData;
+use App\Domain\carteira\Models\Carteira;
+use App\Domain\Usuario\Models\Usuario;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CarteiraTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseMigrations;
     public function test_deve_criar_uma_carteira_para_o_usuario()
     {
         $action = resolve(\App\Domain\carteira\Actions\CriarCarteiraAction::class);
@@ -22,11 +25,13 @@ class CarteiraTest extends TestCase
         ]);
     }
 
-    public function test_deve_retornar_o_saldo_do_usuario()
+    public function test_deve_retornar_o_saldo_da_carteira_do_usuario()
     {
+        Usuario::factory(1)->create();
+        Carteira::factory(1)->create();
         $action = resolve(\App\Domain\carteira\Actions\SaldoCarteiraAction::class);
         $mock_usuario_id = 1;
         $saldoUsuario = $action->execute($mock_usuario_id);
-        $this->assertEquals(9999, $saldoUsuario);
+        $this->assertNotSame(0,$saldoUsuario);
     }
 }
