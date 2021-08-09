@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Domain\Usuario\Models\Usuario;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -76,10 +77,11 @@ class UsuarioControllerTest extends TestCase
 
     public function test_campo_email_deve_ser_unico_ao_criar_usuario()
     {
+        $usuario = Usuario::factory(1)->create()->first();
         $mock_usuario = [
             "nome" => "pedro lucca leonardo de almeida",
             "cpf_cnpj" => "36.350.988/0001-66",
-            "email" => "pedrolucca257@gmail.com",
+            "email" => $usuario->email,
             "password" => "any_password",
             "tipo_id" => 1,
         ];
@@ -93,9 +95,10 @@ class UsuarioControllerTest extends TestCase
 
     public function test_campo_cpf_cnpj_deve_ser_unico_ao_criar_usuario()
     {
+        $usuario = Usuario::factory(1)->create()->first();
         $mock_usuario = [
             "nome" => "pedro lucca leonardo de almeida",
-            "cpf_cnpj" => "13864107725",
+            "cpf_cnpj" => "$usuario->cpf_cnpj",
             "email" => "any_email@gmail.com",
             "password" => "any_password",
             "tipo_id" => 1,
