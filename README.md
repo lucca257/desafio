@@ -38,18 +38,24 @@ php artisan db:seed
 
 ### Criar usuário
 
-`POST api/v1/transferir`
+`POST api/v1/usuario`
 
-    Realizar transferências entre usuários
+    criar usuário
     
 ### Parâmetros
 
     {
-        "pagador" : 1,
-	    "beneficiario" : 2,
-        "valor": 1
+        "nome" : "pedro lucca leonardo de almeida",
+        "cpf_cnpj" : "13864107725",
+        "email" : "pedrolucca257@gmail.com",
+        "password" : "any_password",
+        "tipo_id" : 1
     }
-
+    
+    tipos possíveis:
+    1. usuário comum
+    2. lojista
+    
 ### Response
 
     {
@@ -67,11 +73,9 @@ php artisan db:seed
 ### Parâmetros
 
     {
-        "nome" : "pedro lucca leonardo de almeida",
-        "cpf_cnpj" : "13864107725",
-        "email" : "pedrolucca257@gmail.com",
-        "password" : "any_password",
-        "tipo_id" : 1
+        "pagador" : 1,
+	    "beneficiario" : 2,
+        "valor": 1
     }
 
 ### Response
