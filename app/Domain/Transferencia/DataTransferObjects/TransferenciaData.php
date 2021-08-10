@@ -8,9 +8,9 @@ class TransferenciaData
 {
     /**
      * TransferenciaData constructor.
-     * @param string $usuario_origem
-     * @param string $usuario_destino
+     * @param string $pagador
+     * @param string $beneficiario
      * @param float $valor
      */
-    public function __construct(public string $usuario_origem, public string $usuario_destino, public float $valor){}
+    public function __construct(public string $pagador, public string $beneficiario, public float $valor){}
 }

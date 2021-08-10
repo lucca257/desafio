@@ -27,8 +27,8 @@ class TransferenciaTest extends TestCase
         Carteira::factory(2)->create();
         $action = resolve(\App\Domain\Transferencia\Actions\CriarJobTransferenciaAction::class);
         $transferenciaMock = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(
-            usuario_origem:  $usuarios->first()->id,
-            usuario_destino: $usuarios->last()->id,
+            pagador:  $usuarios->first()->id,
+            beneficiario: $usuarios->last()->id,
             valor: 99
         );
         $action->execute($transferenciaMock);
@@ -47,8 +47,8 @@ class TransferenciaTest extends TestCase
         Carteira::factory(2)->saldoZerado()->create();
         $action = resolve(\App\Domain\Transferencia\Actions\CriarJobTransferenciaAction::class);
         $transferenciaMock = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(
-            usuario_origem:  $usuarios->first()->id,
-            usuario_destino: $usuarios->last()->id,
+            pagador:  $usuarios->first()->id,
+            beneficiario: $usuarios->last()->id,
             valor: 99
         );
         $action->execute($transferenciaMock);
@@ -59,8 +59,8 @@ class TransferenciaTest extends TestCase
 
         $action = resolve(CriarTransferenciaAction::class);
         $mock_transferencia = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(
-            usuario_origem : $usuarios->first()->id,
-            usuario_destino : $usuarios->last()->id,
+            pagador: $usuarios->first()->id,
+            beneficiario: $usuarios->last()->id,
             valor : 123,
         );
         $action->execute($mock_transferencia);

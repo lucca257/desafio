@@ -21,17 +21,16 @@ class CriarJobTransferenciaAction
      */
     public function execute(TransferenciaData $transferenciaData): void
     {
-        $tipoConta = $this->tipoContaUsuarioAction->execute($transferenciaData->usuario_origem);
+        $tipoConta = $this->tipoContaUsuarioAction->execute($transferenciaData->pagador);
         if($tipoConta->tipo_conta === "lojista"){
             throw new TipoContaNaoPermitida("Esta conta não pode realizar transferência");
         }
 
-        $saldo = $this->saldoCarteiraAction->execute($transferenciaData->usuario_origem);
+        $saldo = $this->saldoCarteiraAction->execute($transferenciaData->pagador);
 
-        if($saldo > $transferenciaData->valor){
+        if($saldo < $transferenciaData->valor){
             throw new SaldoInsuficiente("Saldo insuficiente para realizar transferência");
         }
-
         $transferencia = $this->transferenciaAction->execute($transferenciaData);
         dispatch(new CriarTransferenciaJob($transferencia));
     }

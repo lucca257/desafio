@@ -14,8 +14,8 @@ class CriarTransferenciaAction
     public function execute(TransferenciaData $transferenciaData): Transferencia
     {
         return $this->transferencia->create([
-            "usuario_origem" => $transferenciaData->usuario_origem,
-            "usuario_destino" => $transferenciaData->usuario_destino,
+            "usuario_origem" => $transferenciaData->pagador,
+            "usuario_destino" => $transferenciaData->beneficiario,
             "valor" => $transferenciaData->valor,
         ]);
     }
