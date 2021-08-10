@@ -4,31 +4,33 @@
 namespace App\Domain\Transferencia\Actions;
 
 
+use App\Domain\carteira\Actions\AlterarSaldoCarteiraAction;
 use App\Domain\carteira\Actions\ObterSaldoCarteiraAction;
+use App\Domain\carteira\DataTransferObjects\CarteiraData;
 use App\Domain\Transferencia\DataTransferObjects\TransferenciaData;
-use App\Domain\Transferencia\Exception\SaldoInsuficiente;
-use App\Domain\Transferencia\Exception\TipoContaNaoPermitida;
-use App\Domain\Transferencia\Jobs\CriarTransferenciaJob;
-use App\Domain\Usuario\Actions\CriarUsuarioAction;
-use App\Domain\Usuario\Actions\ObterTipoContaUsuarioAction;
 
 class ProcessarTransferenciaAction
 {
-    public function __construct(private CriarTransferenciaAction $transferenciaAction, private ObterSaldoCarteiraAction $saldoCarteiraAction, private ObterTipoContaUsuarioAction $tipoContaUsuarioAction){}
+    public function __construct(private AlterarSaldoCarteiraAction $alterarSaldoCarteira, private ObterSaldoCarteiraAction $obterSaldoCarteira){}
 
-    /**
-     * @throws TipoContaNaoPermitida|SaldoInsuficiente
-     */
-    public function execute(TransferenciaData $transferenciaData): void
+    public function execute(TransferenciaData $transferenciaData)
     {
-        $tipoConta = $this->tipoContaUsuarioAction->execute($transferenciaData->usuario_origem);
-        if($tipoConta->tipo_conta === "lojista"){
-            throw new TipoContaNaoPermitida("Esta conta não pode realizar transferência");
-        }
+        $saldoUsuarioOrigem = $this->obterSaldoCarteira->execute($transferenciaData->pagador);
+        $saldoUsuarioOrigem -= $transferenciaData->valor;
 
-        $saldo = $this->saldoCarteiraAction->execute($transferenciaData->usuario_origem);
-        if($saldo < $transferenciaData->valor){
-            throw new SaldoInsuficiente("Saldo insuficiente para realizar transferência");
-        }
+        $usuarioOrigem = new CarteiraData(
+            usuario_id: $transferenciaData->pagador,
+            saldo: $saldoUsuarioOrigem
+        );
+        $this->alterarSaldoCarteira->execute($usuarioOrigem);
+
+        $saldoUsuarioDestino = $this->obterSaldoCarteira->execute($transferenciaData->beneficiario);
+        $saldoUsuarioDestino += $transferenciaData->valor;
+
+        $usuarioDestino = new CarteiraData(
+            usuario_id: $transferenciaData->beneficiario,
+            saldo: $saldoUsuarioDestino
+        );
+        $this->alterarSaldoCarteira->execute($usuarioDestino);
     }
 }
