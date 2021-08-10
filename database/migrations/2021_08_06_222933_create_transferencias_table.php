@@ -18,6 +18,7 @@ class CreateTransferenciasTable extends Migration
             $table->foreignId('usuario_origem')->constrained('usuarios');
             $table->foreignId('usuario_destino')->constrained('usuarios');
             $table->float('valor');
+            $table->enum("status",["processando","processado","cancelado"])->default("processando");
             $table->timestamps();
         });
     }
