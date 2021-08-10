@@ -25,7 +25,7 @@ class TransferenciaTest extends TestCase
         $this->expectExceptionMessage("Esta conta não pode realizar transferência");
         $usuarios = Usuario::factory(2)->usuarioLojista()->create();
         Carteira::factory(2)->create();
-        $action = resolve(\App\Domain\Transferencia\Actions\ProcessarTransferenciaAction::class);
+        $action = resolve(\App\Domain\Transferencia\Actions\CriarJobTransferenciaAction::class);
         $transferenciaMock = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(
             usuario_origem:  $usuarios->first()->id,
             usuario_destino: $usuarios->last()->id,
@@ -45,7 +45,7 @@ class TransferenciaTest extends TestCase
         $this->expectExceptionMessage("Saldo insuficiente para realizar transferência");
         $usuarios = Usuario::factory(2)->usuarioComum()->create();
         Carteira::factory(2)->saldoZerado()->create();
-        $action = resolve(\App\Domain\Transferencia\Actions\ProcessarTransferenciaAction::class);
+        $action = resolve(\App\Domain\Transferencia\Actions\CriarJobTransferenciaAction::class);
         $transferenciaMock = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(
             usuario_origem:  $usuarios->first()->id,
             usuario_destino: $usuarios->last()->id,
@@ -55,7 +55,7 @@ class TransferenciaTest extends TestCase
     }
 
     public function test_deve_criar_uma_transferencia() {
-        $usuarios = Usuario::factory(1)->create();
+        $usuarios = Usuario::factory(2)->create();
 
         $action = resolve(CriarTransferenciaAction::class);
         $mock_transferencia = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(

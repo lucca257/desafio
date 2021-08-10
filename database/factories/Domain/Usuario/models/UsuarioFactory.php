@@ -25,7 +25,7 @@ class UsuarioFactory extends Factory
             "nome" => $this->faker->name,
             "email" => $this->faker->email,
             "password" => $this->faker->password,
-            "cpf_cnpj" => $this->faker->randomNumber(),
+            "cpf_cnpj" => $this->faker->unique()->numberBetween(1, 99999) ,
             "tipo_usuario_id" => mt_rand(1,2)
         ];
     }
