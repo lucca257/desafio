@@ -28,4 +28,16 @@ class CarteiraFactory extends Factory
             "saldo" => mt_rand(1,9999)
         ];
     }
+
+    /**
+     * @return CarteiraFactory
+     */
+    public function saldoZerado(): CarteiraFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "saldo" => 0
+            ];
+        });
+    }
 }

@@ -33,7 +33,7 @@ class UsuarioFactory extends Factory
     /**
      * @return UsuarioFactory
      */
-    public function usuarioComum()
+    public function usuarioComum(): UsuarioFactory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -45,7 +45,7 @@ class UsuarioFactory extends Factory
     /**
      * @return UsuarioFactory
      */
-    public function usuarioLojista()
+    public function usuarioLojista(): UsuarioFactory
     {
         return $this->state(function (array $attributes) {
             return [

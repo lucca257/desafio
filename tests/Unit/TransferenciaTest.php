@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Domain\carteira\Models\Carteira;
 use App\Domain\Transferencia\Actions\CriarTransferenciaAction;
 use App\Domain\Transferencia\Exception\SaldoInsuficiente;
 use App\Domain\Transferencia\Exception\TipoContaNaoPermitida;
@@ -41,6 +42,26 @@ class TransferenciaTest extends TestCase
         $this->expectExceptionMessage("Esta conta não pode realizar transferência");
         $usuarios = Usuario::factory(2)->usuarioLojista()->create();
         Carteira::factory(2)->create();
+        $action = resolve(\App\Domain\Transferencia\Actions\ProcessarTransferenciaAction::class);
+        $transferenciaMock = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(
+            usuario_origem:  $usuarios->first()->id,
+            usuario_destino: $usuarios->last()->id,
+            valor: 99
+        );
+        $action->execute($transferenciaMock);
+    }
+
+    /**
+     * @throws SaldoInsuficiente
+     * @throws TipoContaNaoPermitida
+     */
+    public function test_deve_ocorrer_uma_exception_ao_processar_transferencia_quando_usuario_nao_tiver_saldo_suficiente()
+    {
+        $this->withoutExceptionHandling();
+        $this->expectException(SaldoInsuficiente::class);
+        $this->expectExceptionMessage("Saldo insuficiente para realizar transferência");
+        $usuarios = Usuario::factory(2)->usuarioComum()->create();
+        Carteira::factory(2)->saldoZerado()->create();
         $action = resolve(\App\Domain\Transferencia\Actions\ProcessarTransferenciaAction::class);
         $transferenciaMock = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(
             usuario_origem:  $usuarios->first()->id,
