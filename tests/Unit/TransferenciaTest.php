@@ -88,4 +88,22 @@ class TransferenciaTest extends TestCase
         $this->assertEquals($saldoPagador, Carteira::where('usuario_id', $pagador)->first()->saldo);
         $this->assertEquals($saldoBeneficiario, Carteira::where('usuario_id', $beneficiario)->first()->saldo);
     }
+
+    public function test_deve_verificar_se_usuario_possui_saldo_ao_processar_transferencia()
+    {
+        $this->withoutExceptionHandling();
+        $this->expectException(SaldoInsuficiente::class);
+        $this->expectExceptionMessage("Saldo insuficiente para realizar transferência");
+        $usuarios = Usuario::factory(2)->usuarioComum()->create();
+        Carteira::factory(2)->saldoZerado()->create();
+        $action = resolve(\App\Domain\Transferencia\Actions\ProcessarTransferenciaAction::class);
+        $pagador = $usuarios->first()->id;
+        $beneficiario = $usuarios->last()->id;
+        $mock_data = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(
+            pagador : $pagador,
+            beneficiario : $beneficiario,
+            valor : 100
+        );
+        $action->execute($mock_data);
+    }
 }
