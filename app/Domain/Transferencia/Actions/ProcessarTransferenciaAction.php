@@ -25,5 +25,10 @@ class ProcessarTransferenciaAction
         if($tipoConta->tipo_conta === "lojista"){
             throw new TipoContaNaoPermitida("Esta conta não pode realizar transferência");
         }
+
+        $saldo = $this->saldoCarteiraAction->execute($transferenciaData->usuario_origem);
+        if($saldo < $transferenciaData->valor){
+            throw new SaldoInsuficiente("Saldo insuficiente para realizar transferência");
+        }
     }
 }
