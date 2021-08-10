@@ -21,9 +21,62 @@ php artisan migrate
 php artisan db:seed
 ```
 
-## Ativar os Jobs de processando de transferencias
+### Ativar os Jobs de processando de transferencias
 
 ```bash
  php artisan queue:listen --queue=transferencias
 ```
 
+### Realizar testes
+
+```bash
+ php artisan test
+```
+
+### Rotas da aplicação
+
+
+### Criar usuário
+
+`POST api/v1/transferir`
+
+    Realizar transferências entre usuários
+    
+### Parâmetros
+
+    {
+        "pagador" : 1,
+	    "beneficiario" : 2,
+        "valor": 1
+    }
+
+### Response
+
+    {
+        "status": "successo",
+        "message": "transferencia processada com sucesso"
+    }
+
+
+### Realizar Transferenciar
+
+`POST api/v1/transferir`
+
+    Realizar transferências entre usuários
+    
+### Parâmetros
+
+    {
+        "nome" : "pedro lucca leonardo de almeida",
+        "cpf_cnpj" : "13864107725",
+        "email" : "pedrolucca257@gmail.com",
+        "password" : "any_password",
+        "tipo_id" : 1
+    }
+
+### Response
+
+    {
+        "status": "successo",
+        "message": "transferencia processada com sucesso"
+    }
