@@ -22,4 +22,5 @@ Route::prefix('v1')->group(function () {
     Route::prefix('usuario')->group(function () {
         Route::post('/', [\App\Api\Usuarios\Controllers\UsuarioController::class, 'store']);
     });
+    Route::post('transferir', [\App\Api\Transferencia\Controllers\TransferenciaController::class, 'transferencia']);
 });
