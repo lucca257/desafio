@@ -40,4 +40,16 @@ class CarteiraFactory extends Factory
             ];
         });
     }
+
+    /**
+     * @return CarteiraFactory
+     */
+    public function saldoMaximo(): CarteiraFactory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "saldo" => 100000
+            ];
+        });
+    }
 }
