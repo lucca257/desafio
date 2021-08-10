@@ -56,7 +56,6 @@ class TransferenciaTest extends TestCase
 
     public function test_deve_criar_uma_transferencia() {
         $usuarios = Usuario::factory(2)->create();
-
         $action = resolve(CriarTransferenciaAction::class);
         $mock_transferencia = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(
             pagador: $usuarios->first()->id,
@@ -69,5 +68,24 @@ class TransferenciaTest extends TestCase
             "usuario_destino" => $usuarios->last()->id,
             "valor" => 123,
         ]);
+    }
+
+    public function test_deve_altera_o_saldo_das_carteiras_ao_processar_transferencia()
+    {
+        $usuarios = Usuario::factory(2)->usuarioComum()->create();
+        Carteira::factory(2)->saldoMaximo()->create();
+        $action = resolve(\App\Domain\Transferencia\Actions\ProcessarTransferenciaAction::class);
+        $pagador = $usuarios->first()->id;
+        $beneficiario = $usuarios->last()->id;
+        $mock_data = new \App\Domain\Transferencia\DataTransferObjects\TransferenciaData(
+            pagador : $pagador,
+            beneficiario : $beneficiario,
+            valor : 100
+        );
+        $action->execute($mock_data);
+        $saldoPagador = 9899;
+        $saldoBeneficiario = 10099;
+        $this->assertEquals($saldoPagador, Carteira::where('usuario_id', $pagador)->first()->saldo);
+        $this->assertEquals($saldoBeneficiario, Carteira::where('usuario_id', $beneficiario)->first()->saldo);
     }
 }
