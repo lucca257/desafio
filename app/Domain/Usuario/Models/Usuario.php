@@ -24,7 +24,7 @@ class Usuario extends Authenticatable
      */
     public function tipo(): HasOne
     {
-        return $this->hasOne(TipoUsuario::class);
+        return $this->hasOne(TipoUsuario::class, 'id', 'tipo_usuario_id');
     }
 
     /**
