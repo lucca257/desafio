@@ -17,10 +17,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Throwable;
 
 class CriarTransferenciaJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * numero de tentativas de retry
+     * @var int
+     */
+    public $tries = 3;
+
 
     public function __construct(private Transferencia $transferencia)
     {
@@ -44,5 +52,28 @@ class CriarTransferenciaJob implements ShouldQueue
             "status" => "processado"
         ]);
         $enviarEmail->execute();
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param Throwable $exception
+     * @return void
+     */
+    public function failed(Throwable $exception)
+    {
+        $this->transferencia->update([
+            "status" => "cancelado"
+        ]);
+    }
+
+    /**
+     * Calculate the number of seconds to wait before retrying the job.
+     *
+     * @return array
+     */
+    public function backoff()
+    {
+        return [1, 5, 10];
     }
 }

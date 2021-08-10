@@ -23,9 +23,9 @@ class CarteiraFactory extends Factory
     public function definition()
     {
         $carteira = Carteira::all()->pluck('usuario_id');
-        $usuarios = Usuario::whereNotIn('id', $carteira)->get('id');
+        $usuarios = Usuario::whereNotIn('id', $carteira)->pluck('id');
         return [
-            "usuario_id" =>$this->faker->unique()->numberBetween($usuarios->first()->id, $usuarios->count()) ,
+            "usuario_id" =>  $this->faker->unique()->randomElement($usuarios),
             "saldo" => mt_rand(1,9999)
         ];
     }
@@ -49,7 +49,7 @@ class CarteiraFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                "saldo" => 999999
+                "saldo" => 9999
             ];
         });
     }
