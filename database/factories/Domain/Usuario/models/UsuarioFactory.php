@@ -29,4 +29,28 @@ class UsuarioFactory extends Factory
             "tipo_usuario_id" => mt_rand(1,2)
         ];
     }
+
+    /**
+     * @return UsuarioFactory
+     */
+    public function usuarioComum()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "tipo_usuario_id" => 1
+            ];
+        });
+    }
+
+    /**
+     * @return UsuarioFactory
+     */
+    public function usuarioLojista()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                "tipo_usuario_id" => 2
+            ];
+        });
+    }
 }
