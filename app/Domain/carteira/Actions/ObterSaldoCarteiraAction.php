@@ -7,7 +7,7 @@ namespace App\Domain\carteira\Actions;
 use App\Domain\carteira\DataTransferObjects\CarteiraData;
 use App\Domain\carteira\Models\Carteira;
 
-class SaldoCarteiraAction
+class ObterSaldoCarteiraAction
 {
     public function __construct(private Carteira $carteira){}
 
