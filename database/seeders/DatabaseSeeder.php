@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Usuario::factory(10)->create();
-        Carteira::factory(10)->create();
+        Usuario::factory(50)->create();
+        Carteira::factory(50)->saldoMaximo()->create();
     }
 }
