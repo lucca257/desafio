@@ -72,4 +72,17 @@ class TransferenciaControllerTest extends TestCase
                 "beneficiario" => ["The selected beneficiario is invalid."]
             ]);
     }
+
+    public function test_deve_retornar_200_ao_processar_transferencia()
+    {
+        $usuarios = Usuario::factory(2)->usuarioComum()->create();
+        Carteira::factory(2)->saldoMaximo()->create();
+        $mock_data = [
+            "pagador" => $usuarios->first()->id,
+            "beneficiario" => $usuarios->last()->id,
+            "valor" => 1
+        ];
+        $response = $this->post('api/v1/transferir', $mock_data);
+        $response->assertStatus(200);
+    }
 }
