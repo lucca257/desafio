@@ -9,8 +9,10 @@ use App\Domain\Transferencia\DataTransferObjects\TransferenciaData;
 use App\Domain\Transferencia\Exception\SaldoInsuficiente;
 use App\Domain\Transferencia\Exception\TipoContaNaoPermitida;
 use App\Domain\Transferencia\Jobs\CriarTransferenciaJob;
+use App\Domain\Transferencia\Jobs\EnviarEmailTransferenciaJob;
 use App\Domain\Usuario\Actions\CriarUsuarioAction;
 use App\Domain\Usuario\Actions\ObterTipoContaUsuarioAction;
+use Illuminate\Support\Facades\Bus;
 
 class CriarJobTransferenciaAction
 {
@@ -32,6 +34,10 @@ class CriarJobTransferenciaAction
             throw new SaldoInsuficiente("Saldo insuficiente para realizar transferência");
         }
         $transferencia = $this->transferenciaAction->execute($transferenciaData);
-        dispatch(new CriarTransferenciaJob($transferencia));
+
+        Bus::chain([
+            new CriarTransferenciaJob($transferencia),
+            new EnviarEmailTransferenciaJob()
+        ])->dispatch();
     }
 }

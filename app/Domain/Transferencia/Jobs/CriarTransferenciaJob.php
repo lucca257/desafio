@@ -9,6 +9,7 @@ use App\Domain\carteira\DataTransferObjects\CarteiraData;
 use App\Domain\Transferencia\Actions\ConsultarAutorizadorAction;
 use App\Domain\Transferencia\Actions\ProcessarTransferenciaAction;
 use App\Domain\Transferencia\DataTransferObjects\TransferenciaData;
+use App\Domain\Transferencia\Exception\SaldoInsuficiente;
 use App\Domain\Transferencia\Models\Transferencia;
 use App\Support\EnviarEmail;
 use Exception;
@@ -37,9 +38,11 @@ class CriarTransferenciaJob implements ShouldQueue
 
 
     /**
-     * @throws Exception
+     * @param ConsultarAutorizadorAction $autorizadorAction
+     * @param ProcessarTransferenciaAction $processarTransferencia
+     * @throws SaldoInsuficiente
      */
-    public function handle(ConsultarAutorizadorAction $autorizadorAction, ProcessarTransferenciaAction $processarTransferencia, EnviarEmail $enviarEmail)
+    public function handle(ConsultarAutorizadorAction $autorizadorAction, ProcessarTransferenciaAction $processarTransferencia)
     {
         $response = $autorizadorAction->execute();
         if ($response["message"] != "Autorizado")
@@ -51,7 +54,6 @@ class CriarTransferenciaJob implements ShouldQueue
         $this->transferencia->update([
             "status" => "processado"
         ]);
-        $enviarEmail->execute();
     }
 
     /**
