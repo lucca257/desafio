@@ -5,8 +5,13 @@ use App\Domain\carteira\Models\Carteira;
 use App\Domain\Transferencia\Actions\CriarTransferenciaAction;
 use App\Domain\Transferencia\Exception\SaldoInsuficiente;
 use App\Domain\Transferencia\Exception\TipoContaNaoPermitida;
+use App\Domain\Transferencia\Jobs\CriarTransferenciaJob;
+use App\Domain\Transferencia\Jobs\EnviarEmailTransferenciaJob;
+use App\Domain\Transferencia\Models\Transferencia;
 use App\Domain\Usuario\Models\Usuario;
+use Illuminate\Events\CallQueuedListener;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Bus;
 use Tests\TestCase;
 
 
@@ -105,5 +110,14 @@ class TransferenciaTest extends TestCase
             valor : 100
         );
         $action->execute($mock_data);
+    }
+
+    public function test_um_job_deve_ir_para_fila_ao_processar_transferencia()
+    {
+        Queue::fake();
+        Usuario::factory(2)->create();
+        $transferencia = Transferencia::factory(1)->create()->first();
+        CriarTransferenciaJob::dispatch($transferencia);
+        Queue::assertPushed(CriarTransferenciaJob::class);
     }
 }
