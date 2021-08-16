@@ -33,6 +33,12 @@ php artisan db:seed
  php artisan test
 ```
 
+
+### Diagramas
+![image](https://user-images.githubusercontent.com/31326015/129606983-666d04d3-6486-4f24-a448-2e5628b39319.png)
+![image](https://user-images.githubusercontent.com/31326015/129606632-d1a4cf52-9e50-4632-906d-3a5a3194007f.png)
+
+
 ### Rotas da aplicação
 
 
