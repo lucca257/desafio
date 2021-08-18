@@ -19,7 +19,7 @@ Laravel versão 8
 cd desafio
 cp .env.example .env
 docker-compose up -d --build
-docker-compose exec php bash -c "php artisan key:generate; composer install, php artisan migrate --seed"
+docker-compose exec php bash -c "php artisan key:generate; composer install; php artisan migrate --seed"
 ```
 
 ### Caso já tenha feito a instalação do projeto
