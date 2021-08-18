@@ -2,7 +2,7 @@
 Laravel versão 8
 
 ## Requisitos:
-1. [PHP](https://www.php.net/) (7.4)
+1. [PHP](https://www.php.net/) (8)
 2. [MySQL](https://www.mysql.com) (5.7)
 3. [Composer](https://getcomposer.org/) (2.1)
 
