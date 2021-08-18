@@ -6,62 +6,41 @@ Laravel versão 8
 2. [MySQL](https://www.mysql.com) (5.7)
 3. [Composer](https://getcomposer.org/) (2.1)
 
-### Instruções para rodar o projeto (dentro da pasta do projeto):
+### Instruções para instalar o projeto (dentro da pasta do projeto):
 
 1. Entre no diretório
-
-```sh
-cd %folder%
-```
-
 2. Gere o arquivo .env baseado no .env.example
-
-```sh
-cp .env.example .env
-```
-
 3. "Levante" o projeto com o container
-
-```sh
-docker-composer up -d --build
-```
-
 4. Gere uma chave válida de ambiente no env
-
-```sh
-docker-composer exec php bash -c "php artisan key:generate"
-```
-
 5. Instale as dependências utilizando o composer
-
-```sh
-docker-composer exec php bash -c "composer install"
-```
-
 6. Gerando as tabelas utilizando as migrations
 
 ```sh
-docker-composer exec php bash -c "php artisan migrate"
+cd desafio
+cp .env.example .env
+docker-compose up -d --build
+docker-compose exec php bash -c "php artisan key:generate; composer install, php artisan migrate --seed"
 ```
 
-caso queira dados para testar
+### Caso já tenha feito a instalação do projeto
 
-```sh
-docker-composer exec php bash -c "php artisan db:seed"
-```
-
-7. Ativar os Jobs de processando de transferencias
+obs: necessário o container estar levantador
 
 ```bash
-docker-composer exec php bash -c "php artisan queue:listen --queue=transferencias"
+docker-compose up -d --build
 ```
 
-8. Realizar testes
+Ativar os Jobs de processando de transferencias
 
 ```bash
-docker-composer exec php bash -c "php artisan test"
+docker-compose exec php bash -c "php artisan queue:listen --queue=transferencias"
 ```
 
+Realizar testes
+
+```bash
+docker-compose exec php bash -c "php artisan test"
+```
 ### Diagramas
 
 ![image](https://user-images.githubusercontent.com/31326015/129606983-666d04d3-6486-4f24-a448-2e5628b39319.png)
