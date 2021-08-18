@@ -8,42 +8,66 @@ Laravel versão 8
 
 ### Instruções para rodar o projeto (dentro da pasta do projeto):
 
-1. Criar banco de dados
-2. Rodar migrations
-3. Rodar seeds (dados de teste)
-3. Acesse a pasta do projeto
-4. Execute os comandos abaixo, na raiz do projeto, em um terminal compativel com **Git Bash**, **PowerShell** ou **bash.exe**:
+1. Entre no diretório
 
 ```sh
-cp .env.localhost .env
-php artisan key:generate
-php artisan migrate
-php artisan db:seed
+cd %folder%
 ```
 
-### Ativar os Jobs de processando de transferencias
+2. Gere o arquivo .env baseado no .env.example
+
+```sh
+cp .env.example .env
+```
+
+3. "Levante" o projeto com o container
+
+```sh
+docker-composer up -d --build
+```
+
+4. Gere uma chave válida de ambiente no env
+
+```sh
+docker-composer exec php bash -c "php artisan key:generate"
+```
+
+5. Instale as dependências utilizando o composer
+
+```sh
+docker-composer exec php bash -c "composer install"
+```
+
+6. Gerando as tabelas utilizando as migrations
+
+```sh
+docker-composer exec php bash -c "php artisan migrate"
+```
+
+caso queira dados para testar
+
+```sh
+docker-composer exec php bash -c "php artisan db:seed"
+```
+
+7. Ativar os Jobs de processando de transferencias
 
 ```bash
- php artisan queue:listen --queue=transferencias
+docker-composer exec php bash -c "php artisan queue:listen --queue=transferencias"
 ```
 
-### Realizar testes
+8. Realizar testes
 
 ```bash
- php artisan test
+docker-composer exec php bash -c "php artisan test"
 ```
-
 
 ### Diagramas
+
 ![image](https://user-images.githubusercontent.com/31326015/129606983-666d04d3-6486-4f24-a448-2e5628b39319.png)
 ![image](https://user-images.githubusercontent.com/31326015/129606632-d1a4cf52-9e50-4632-906d-3a5a3194007f.png)
-
-
 ### Rotas da aplicação
-
-
 ### Criar usuário
-
 `POST api/v1/usuario`
 
     criar usuário
